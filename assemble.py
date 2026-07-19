@@ -83,7 +83,7 @@ def _text_clip(text, fontsize, color, stroke_color, stroke_width,
 def _build_item_clip(visual_path, audio_path, rank, name, config):
     video_size = tuple(config["video"]["resolution"])
     audio = AudioFileClip(audio_path)
-    duration = audio.duration + 0.4
+    duration = audio.duration
 
     if visual_path and os.path.exists(visual_path):
         base = VideoFileClip(visual_path).without_audio()
@@ -117,8 +117,13 @@ def _build_item_clip(visual_path, audio_path, rank, name, config):
     )
 
     comp = CompositeVideoClip([base, rank_clip, caption_clip], size=video_size)
-    return comp.set_audio(audio).set_duration(duration)
+    audio = audio.subclip(0, duration)
 
+return (
+    comp
+    .set_audio(audio)
+    .set_duration(duration)
+)
 
 def assemble_video(script, audio_paths, visual_paths, config, out_path):
     clips = []
