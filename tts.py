@@ -2,7 +2,6 @@ import os
 
 from tiktoktts import TTS
 
-
 VOICE_ID = "en_female_ht_f08_wonderful_world"
 
 
@@ -11,10 +10,10 @@ def synthesize_narration(text: str, config: dict, out_path: str) -> str:
 
     tts.SetVoice(VOICE_ID)
 
-    tts.New(
-        text=text,
-        output=out_path,
-    )
+    tts.text = text
+    tts.output_file_name = out_path
+
+    tts.New()
 
     return out_path
 
@@ -38,3 +37,4 @@ if __name__ == "__main__":
         {},
         "test.mp3",
     )
+    print("Done")
