@@ -15,11 +15,11 @@ def split_text(text, limit=MAX_BYTES):
 
     for word in words:
         test = word if not current else current + " " + word
-
         if len(test.encode("utf-8")) <= limit:
             current = test
         else:
-            chunks.append(current)
+            if current:
+                chunks.append(current)
             current = word
 
     if current:
@@ -32,33 +32,24 @@ def synthesize_narration(text, config, out_path):
     tts = TTS()
     tts.SetVoice(VOICE_ID)
 
-    parts = []
-    chunks = split_text(text)
+    temp = []
 
-    for i, chunk in enumerate(chunks):
+    for i, chunk in enumerate(split_text(text)):
         tts.New(chunk)
-
-        part = f"part_{i}.mp3"
+        part = f"tts_part_{i}.mp3"
         shutil.move("output.mp3", part)
-        parts.append(part)
+        temp.append(part)
 
-    clips = [AudioFileClip(p) for p in parts]
-
+    clips = [AudioFileClip(x) for x in temp]
     final = concatenate_audioclips(clips)
-    final.write_audiofile(
-        out_path,
-        fps=44100,
-        codec="mp3",
-        logger=None,
-    )
+    final.write_audiofile(out_path, codec="mp3", fps=44100, logger=None)
 
     final.close()
+    for c in clips:
+        c.close()
 
-    for clip in clips:
-        clip.close()
-
-    for p in parts:
-        os.remove(p)
+    for x in temp:
+        os.remove(x)
 
     return out_path
 
@@ -66,20 +57,13 @@ def synthesize_narration(text, config, out_path):
 def synthesize_script(script, config, workdir):
     os.makedirs(workdir, exist_ok=True)
 
-    paths = []
+    narration = " ".join([
+        script["hook"],
+        script["story"],
+        script["twist"],
+        script["ending"],
+    ])
 
-    for i, item in enumerate(script["items"], start=1):
-        out = os.path.join(workdir, f"item_{i}.mp3")
-        synthesize_narration(item["narration"], config, out)
-        paths.append(out)
-
-    return paths
-
-
-if __name__ == "__main__":
-    synthesize_narration(
-        "Hello world.",
-        {},
-        "test.mp3",
-    )
-    print("Done")
+    out = os.path.join(workdir, "story.mp3")
+    synthesize_narration(narration, config, out)
+    return [out]
