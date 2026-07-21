@@ -36,7 +36,7 @@ def _caption(text,duration,size):
         clips.append(
             TextClip(word,font=FONT,fontsize=82,color="white",
                      stroke_color="black",stroke_width=4)
-            .set_position(("center",h*0.78))
+            .set_position(("center",h*0.65))
             .set_start(t)
             .set_duration(seg)
         )
