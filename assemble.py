@@ -133,9 +133,7 @@ def assemble_video(script, audio_paths, visual_paths, config, out_path):
             clip = (
                 clip
                 .set_start(current_time)
-                .set_duration(clip_duration)
-                .crossfadein(0.20)
-                .crossfadeout(0.20)
+                .set_duration(clip_duration)                
             )
 
             timeline.append(clip)
