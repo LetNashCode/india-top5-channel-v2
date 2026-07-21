@@ -45,7 +45,8 @@ def run(dry_run=False):
     os.makedirs(workdir, exist_ok=True)
 
     audio = synthesize_script(script, config, os.path.join(workdir, "audio"))
-
+    print("Generating Whisper timestamps...")
+    
     visuals = fetch_visuals_for_script(
         script,
         config,
