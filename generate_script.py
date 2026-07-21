@@ -15,12 +15,14 @@ Return ONLY valid JSON.
 
 Schema:
 {
- "title":"",
- "hook":"",
- "story":"",
- "twist":"",
- "ending":"",
- "scene_plan":[
+  "title":"",
+  "description":"",
+  "tags":[],
+  "hook":"",
+  "story":"",
+  "twist":"",
+  "ending":"",
+  "scene_plan":[
    {
      "text":"",
      "visual":"",
