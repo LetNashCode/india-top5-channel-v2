@@ -9,7 +9,7 @@ script:
 
 voice:
   provider: "tiktok"
-  voice_name: "en_female_ht_f08_wonderful_world"
+  voice_name: "en_us_ghostface"
 
 visuals:
   provider: "pixabay"
