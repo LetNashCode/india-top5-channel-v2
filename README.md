@@ -1,91 +1,366 @@
-# Indian Top 5 — Fully Automated YouTube Shorts Pipeline
+# 🎬 AI YouTube Shorts Automation
 
-A "Nuke's Top 5"-style channel, adapted for an Indian audience (haunted places,
-folklore, unsolved mysteries, urban legends). This pipeline does everything
-end to end, on a schedule, with no manual steps once it's set up:
+An end-to-end fully automated YouTube Shorts generation pipeline powered by Gemini AI, TikTok TTS, Whisper alignment, MoviePy, Pixabay, Pexels and the YouTube Data API.
+
+The goal of this project is to generate high-retention YouTube Shorts completely automatically and publish them without any manual editing.
+
+---
+
+# Current Status
+
+## ✅ Implemented
+
+### 🤖 AI Script Generation
+
+- Google Gemini Flash Lite
+- Story-driven scripts
+- Hook → Story → Twist → Ending structure
+- 40–45 second narration
+- SEO title generation
+- SEO description generation
+- 15 optimized tags
+- Emotional scene planning
+- Cinematic scene breakdown
+- Open-loop endings
+- High-retention writing prompt
+
+---
+
+### 🎥 Visual Engine
+
+Each scene generates
+
+- 4 shots
+
+Each shot generates
+
+- 5 alternative search queries
+
+Visual sources
+
+- Pixabay Videos
+- Pexels Videos
+
+Features
+
+- Automatic fallback search
+- Duplicate clip prevention
+- Quality ranking
+- Portrait preference
+- HD preference
+- Long clip preference
+- Multi-source search
+- Automatic downloading
+
+---
+
+### 🎙 Narration
+
+Current Engine
+
+- TikTok TTS
+- Ghostface Voice
+
+Features
+
+- Automatic chunking
+- UTF-8 safe splitting
+- MP3 merging
+- Automatic cleanup
+- Emotion-ready pipeline
+
+---
+
+### 📝 Captions
+
+- Whisper Alignment
+- Word-level timestamps
+- Automatic subtitles
+- Burned into video
+
+---
+
+### 🎬 Video Assembly
+
+MoviePy based editor
+
+Features
+
+- Dynamic scene durations
+- Auto scaling
+- Center crop
+- Vertical format
+- Motion zoom
+- Background music
+- Caption overlay
+- Automatic timeline creation
+
+---
+
+### 📺 YouTube Upload
+
+- OAuth Authentication
+- Automatic upload
+- Title
+- Description
+- Tags
+- Shorts support
+
+---
+
+### 🔄 Automation
+
+GitHub Actions
+
+Runs automatically on schedule
+
+Pipeline
+
+Topic
+↓
+
+Script
+↓
+
+Narration
+↓
+
+Visual Search
+↓
+
+Download Assets
+↓
+
+Assemble Video
+↓
+
+Upload to YouTube
+
+---
+
+# Story Pipeline
 
 ```
-Topic idea  →  Script (5 items)  →  Voiceover (TTS)  →  Visuals  →
-Video assembly (captions, music, 9:16)  →  Upload to YouTube (scheduled)
+Topic
+      │
+      ▼
+Gemini AI
+      │
+      ▼
+Hook
+      │
+      ▼
+Story
+      │
+      ▼
+Twist
+      │
+      ▼
+Ending
+      │
+      ▼
+Scene Planner
+      │
+      ▼
+Visual Searches
 ```
 
-## How it runs automatically
+---
 
-It runs as a **GitHub Actions cron job** — free, and it runs even if your
-laptop is off. Every run:
-1. Picks a topic your channel hasn't covered yet (tracked in `used_topics.json`)
-2. Generates a Top-5 script
-3. Generates narration audio
-4. Pulls matching stock visuals
-5. Assembles a 9:16 Short with captions + background music
-6. Uploads it to YouTube as a scheduled/public video
+# Video Pipeline
 
-You only touch this repo when you want to change the niche, voice, or posting
-frequency.
-
-## One-time setup (about 30–45 minutes)
-
-### 1. Get an Anthropic API key (for script writing)
-- console.anthropic.com → Get API key → copy it.
-
-### 2. Get a free Pexels API key (for stock visuals)
-- pexels.com/api → sign up → copy your key. Free, no card needed.
-
-### 3. Create a YouTube Data API v3 credential (for uploading)
-- console.cloud.google.com → New Project
-- Enable "YouTube Data API v3"
-- OAuth consent screen → External → fill basic info → add your own Google
-  account as a Test User
-- Credentials → Create OAuth client ID → Desktop app → download the JSON,
-  save it as `client_secret.json` in this folder
-- Run `python auth_youtube.py` once on your own computer (not in CI) — it
-  opens a browser, you approve access, and it saves `token.json`. Only needs
-  to happen once; after that the pipeline reuses the token.
-
-### 4. Add secrets to GitHub
-In your repo: Settings → Secrets and variables → Actions → New repository
-secret. Add:
-- `ANTHROPIC_API_KEY`
-- `PEXELS_API_KEY`
-- `YOUTUBE_TOKEN_JSON` (paste the full contents of `token.json` from step 3)
-- `YOUTUBE_CLIENT_SECRET_JSON` (paste the full contents of `client_secret.json`)
-
-### 5. Push this folder to a GitHub repo
-The workflow in `.github/workflows/publish.yml` is already set to run daily
-at 14:00 UTC (7:30 PM IST) — edit the cron line to change frequency.
-
-## Costs
-- Anthropic API: pennies per script (~$0.01–0.03/video)
-- Pexels: free
-- TTS: uses free `edge-tts` (Microsoft Edge's free neural voices, includes
-  Indian-English and Hindi voices) — $0 cost
-- YouTube Data API: free, but capped at 10,000 quota units/day. An upload
-  costs ~1,600 units, so you can safely publish **up to ~6 Shorts/day** on
-  the free tier.
-
-## Customizing
-- Edit `config.yaml` — niche, language (English/Hindi/Hinglish), voice,
-  posting time, video length, hashtags, whether videos go public immediately
-  or as scheduled/private-until-date.
-- Edit `topics.py` — the seed list of topic categories it draws from and
-  expands on (haunted forts, cursed villages, unsolved Bollywood-era
-  mysteries, etc.) — add/remove categories any time.
-
-## Running one video manually (for testing)
-```bash
-pip install -r requirements.txt
-python main.py --dry-run       # generates everything but skips upload
-python main.py                 # generates and uploads
+```
+Script
+      │
+      ▼
+TikTok TTS
+      │
+      ▼
+Whisper Alignment
+      │
+      ▼
+Pixabay
+      │
+      ▼
+Pexels
+      │
+      ▼
+MoviePy
+      │
+      ▼
+Final Short
+      │
+      ▼
+YouTube Upload
 ```
 
-## Files
-- `config.yaml` — all settings
-- `topics.py` — topic bank + "already used" tracking
-- `generate_script.py` — calls Claude to write the Top-5 script
-- `tts.py` — turns the script into narration audio
-- `visuals.py` — fetches matching stock video clips from Pexels
-- `assemble.py` — stitches everything into a 9:16 MP4 with burned-in captions
-- `upload_youtube.py` — uploads the finished video via the YouTube API
-- `auth_youtube.py` — one-time OAuth login helper (run locally, not in CI)
-- `main.py` — orchestrates the whole pipeline
-- `.github/workflows/publish.yml` — the cron job that runs it automatically
+---
+
+# Tech Stack
+
+## AI
+
+- Google Gemini Flash Lite
+
+## Speech
+
+- TikTok TTS
+
+## Alignment
+
+- Whisper
+
+## Editing
+
+- MoviePy
+
+## Visual Sources
+
+- Pixabay API
+- Pexels API
+
+## Upload
+
+- YouTube Data API v3
+
+## Automation
+
+- GitHub Actions
+
+---
+
+# Project Structure
+
+```
+.
+├── assemble.py
+├── generate_script.py
+├── visuals.py
+├── tts.py
+├── whisper_align.py
+├── upload_youtube.py
+├── main.py
+├── config.yaml
+├── requirements.txt
+├── publish.yml
+└── README.md
+```
+
+---
+
+# Features
+
+- AI-generated storytelling
+- High-retention script writing
+- Emotional scene planning
+- Cinematic visual search
+- Multi-source stock footage
+- Automatic narration
+- Word-level captions
+- Motion effects
+- Background music
+- Automatic uploads
+- Scheduled publishing
+- Fully automated pipeline
+
+---
+
+# Environment Variables
+
+```
+GEMINI_API_KEY
+
+PIXABAY_API_KEY
+
+PEXELS_API_KEY
+
+YOUTUBE_TOKEN_JSON
+
+YOUTUBE_CLIENT_SECRET_JSON
+```
+
+---
+
+# Current Workflow
+
+```
+Generate Topic
+        │
+        ▼
+Generate Story
+        │
+        ▼
+Generate Scene Plan
+        │
+        ▼
+Generate Visual Searches
+        │
+        ▼
+Download Videos
+        │
+        ▼
+Generate Narration
+        │
+        ▼
+Generate Captions
+        │
+        ▼
+Assemble Video
+        │
+        ▼
+Upload to YouTube
+```
+
+---
+
+# Planned Improvements
+
+## Script Engine
+
+- 500+ categorized viral hooks
+- Better emotional pacing
+- Topic memory
+- Retention scoring
+- Hook optimization
+- Multi-language support
+
+---
+
+## Visual Engine
+
+- Better visual matching
+- Documentary-style motion graphics
+- Public-domain archives
+- Maps
+- Timelines
+- Animated infographics
+- Evidence board effects
+- Dynamic camera movement
+- Color grading
+
+---
+
+## Narration
+
+- Emotion-aware TTS
+- Better voice options
+- Dynamic pacing
+- Natural pauses
+
+---
+
+## Automation
+
+- Multiple uploads per day
+- Automatic topic queue
+- Upload history
+- Duplicate detection
+- Scheduled YouTube publishing
+- Retry failed uploads
+- Analytics-driven scheduling
+
+---
+
+# Vision
+
+Build a fully autonomous AI-powered YouTube Shorts production system capable of generating, editing, and publishing high-retention videos every day with zero manual intervention.
