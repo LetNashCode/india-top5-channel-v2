@@ -51,30 +51,16 @@ def _captions(audio_path, size):
 def _animate(clip, duration):
 
     mode = random.choice([
-        "zoom_in",
-        "zoom_out",
         "left",
         "right",
         "up",
         "down",
     ])
 
-    if mode == "zoom_in":
-        return clip.fx(
-            vfx.resize,
-            lambda t: 1 + 0.08 * t / max(duration, 0.1),
-        )
-
-    if mode == "zoom_out":
-        return clip.fx(
-            vfx.resize,
-            lambda t: 1.08 - 0.08 * t / max(duration, 0.1),
-        )
-
     if mode == "left":
         return clip.set_position(
             lambda t: (
-                -40 * t / max(duration, 0.1),
+                -20 * t / max(duration, 0.1),
                 "center",
             )
         )
@@ -82,7 +68,7 @@ def _animate(clip, duration):
     if mode == "right":
         return clip.set_position(
             lambda t: (
-                40 * t / max(duration, 0.1),
+                20 * t / max(duration, 0.1),
                 "center",
             )
         )
@@ -91,14 +77,14 @@ def _animate(clip, duration):
         return clip.set_position(
             lambda t: (
                 "center",
-                -40 * t / max(duration, 0.1),
+                -20 * t / max(duration, 0.1),
             )
         )
 
     return clip.set_position(
         lambda t: (
             "center",
-            40 * t / max(duration, 0.1),
+            20 * t / max(duration, 0.1),
         )
     )
 
@@ -136,19 +122,48 @@ def assemble_video(
 
         if image and os.path.exists(image):
 
-            clip = ImageClip(image).resize(height=size[1])
+            clip = ImageClip(image)
 
-            if clip.w < size[0]:
-                clip = clip.resize(width=size[0])
-
-            clip = clip.crop(
-                x_center=clip.w / 2,
-                y_center=clip.h / 2,
-                width=size[0],
-                height=size[1],
+            # Preserve aspect ratio while fitting inside the canvas
+            image_scale = min(
+                size[0] / clip.w,
+                size[1] / clip.h,
             )
 
-            clip = _animate(clip, duration)
+            clip = clip.resize(image_scale)
+
+            # Put the image on a 1080x1920 canvas without stretching
+            clip = CompositeVideoClip(
+                [
+                    clip.set_position("center")
+                ],
+                size=size,
+            ).set_duration(duration)
+
+            # Much more subtle zoom
+            mode = random.choice([
+                "zoom_in",
+                "zoom_out"
+            ])
+
+            if mode == "zoom_in":
+
+                clip = clip.fx(
+                    vfx.resize,
+                    lambda t: 1 + 0.03 * t / max(duration, 0.1),
+                )
+
+            else:
+
+                clip = clip.fx(
+                    vfx.resize,
+                    lambda t: 1.03 - 0.03 * t / max(duration, 0.1),
+                )
+
+            clip = _animate(
+                clip,
+                duration,
+            )
 
         else:
 
