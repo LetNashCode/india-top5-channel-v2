@@ -48,7 +48,7 @@ def _captions(audio_path, size):
     return clips
 
 
-def _animate(clip):
+def _animate(clip, duration):
 
     mode = random.choice([
         "zoom_in",
@@ -62,19 +62,19 @@ def _animate(clip):
     if mode == "zoom_in":
         return clip.fx(
             vfx.resize,
-            lambda t: 1 + 0.08 * t / max(clip.duration, 0.1),
+            lambda t: 1 + 0.08 * t / max(duration, 0.1),
         )
 
     if mode == "zoom_out":
         return clip.fx(
             vfx.resize,
-            lambda t: 1.08 - 0.08 * t / max(clip.duration, 0.1),
+            lambda t: 1.08 - 0.08 * t / max(duration, 0.1),
         )
 
     if mode == "left":
         return clip.set_position(
             lambda t: (
-                -40 * t / max(clip.duration, 0.1),
+                -40 * t / max(duration, 0.1),
                 "center",
             )
         )
@@ -82,7 +82,7 @@ def _animate(clip):
     if mode == "right":
         return clip.set_position(
             lambda t: (
-                40 * t / max(clip.duration, 0.1),
+                40 * t / max(duration, 0.1),
                 "center",
             )
         )
@@ -91,14 +91,14 @@ def _animate(clip):
         return clip.set_position(
             lambda t: (
                 "center",
-                -40 * t / max(clip.duration, 0.1),
+                -40 * t / max(duration, 0.1),
             )
         )
 
     return clip.set_position(
         lambda t: (
             "center",
-            40 * t / max(clip.duration, 0.1),
+            40 * t / max(duration, 0.1),
         )
     )
 
@@ -140,7 +140,7 @@ def assemble_video(script, audio_paths, image_paths, config, out_path):
                 height=size[1],
             )
 
-            clip = _animate(clip)
+            clip = _animate(clip, duration)
 
         else:
 
