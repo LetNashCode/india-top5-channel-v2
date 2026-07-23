@@ -7,15 +7,26 @@ BASE_URL = "https://image.pollinations.ai/prompt/"
 
 
 STYLE_PREFIX = (
-    "Ultra cinematic. "
-    "Movie still. "
+    "Ultra cinematic movie still. "
     "Hyper realistic. "
+    "Professional photography. "
+    "8K. "
+    "Hollywood blockbuster. "
     "Highly detailed. "
     "Professional color grading. "
     "Volumetric lighting. "
+    "Ray traced lighting. "
     "Sharp focus. "
-    "Vertical composition. "
-    "9:16. "
+    "Portrait orientation. "
+    "Vertical 9:16 composition. "
+    "Subject fills the frame. "
+    "Dynamic cinematic composition. "
+    "Dramatic camera angle. "
+    "Photorealistic. "
+    "No text. "
+    "No captions. "
+    "No logo. "
+    "No watermark. "
 )
 
 
@@ -25,7 +36,9 @@ def generate_images(script, workdir):
 
     image_paths = []
 
-    for i, scene in enumerate(script["scene_plan"]):
+    total = len(script["scene_plan"])
+
+    for i, scene in enumerate(script["scene_plan"], start=1):
 
         prompt = STYLE_PREFIX + scene["image_prompt"]
 
@@ -35,20 +48,22 @@ def generate_images(script, workdir):
             + "?width=1080"
             + "&height=1920"
             + "&model=flux"
+            + "&seed=" + str(i)
+            + "&enhance=true"
+            + "&nologo=true"
         )
 
         print("=" * 80)
-        print(f"🖼️ Generating Scene {i + 1}/{len(script['scene_plan'])}")
+        print(f"🖼️ Generating Scene {i}/{total}")
         print(prompt)
         print("=" * 80, flush=True)
 
         response = requests.get(url, timeout=300)
-
         response.raise_for_status()
 
         path = os.path.join(
             workdir,
-            f"scene_{i+1:02d}.png",
+            f"scene_{i:02d}.png",
         )
 
         with open(path, "wb") as f:
