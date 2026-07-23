@@ -103,7 +103,14 @@ def _animate(clip, duration):
     )
 
 
-def assemble_video(script, audio_paths, image_paths, config, out_path):
+def assemble_video(
+    script,
+    audio_paths,
+    image_paths,
+    music_path,
+    config,
+    out_path,
+):
 
     size = tuple(config["video"]["resolution"])
 
@@ -173,12 +180,10 @@ def assemble_video(script, audio_paths, image_paths, config, out_path):
 
     final = final.set_audio(narration)
 
-    music = config["video"].get("background_music")
-
-    if music and os.path.exists(music):
+    if music_path and os.path.exists(music_path):
 
         bg = (
-            AudioFileClip(music)
+            AudioFileClip(music_path)
             .fx(
                 afx.audio_loop,
                 duration=final.duration,
@@ -186,7 +191,7 @@ def assemble_video(script, audio_paths, image_paths, config, out_path):
             .volumex(
                 config["video"].get(
                     "music_volume",
-                    0.08,
+                    0.18,
                 )
             )
         )
@@ -194,8 +199,8 @@ def assemble_video(script, audio_paths, image_paths, config, out_path):
         final = final.set_audio(
             CompositeAudioClip(
                 [
-                    final.audio,
                     bg,
+                    final.audio,
                 ]
             )
         )
