@@ -33,20 +33,10 @@ Schema:
       "text":"",
       "emotion":"",
       "duration":4,
-      "shots":[
-        {
-          "type":"wide",
-          "searches":["","","",""]
-        },
-        {
-          "type":"closeup",
-          "searches":["","","",""]
-        }
-      ]
+      "image_prompt":""
     }
   ]
-}
-
+}`
 Core Idea
 
 Every video is a "What If You Woke Up As" story.
@@ -406,6 +396,68 @@ Each scene must include:
 
 Each shot must contain exactly 4 alternative search queries.
 
+Image Prompt Rules
+
+For every scene generate ONE cinematic image prompt.
+
+The image prompt should describe ONE single movie-quality frame.
+
+The image must perfectly match the narration.
+
+Every prompt should start with:
+
+Ultra cinematic.
+Movie still.
+Hyper realistic.
+Highly detailed.
+Professional color grading.
+Volumetric lighting.
+Sharp focus.
+Vertical composition.
+9:16.
+
+Then describe:
+
+- character
+- pose
+- facial expression
+- environment
+- lighting
+- camera angle
+- atmosphere
+
+Never mention captions.
+
+Never mention text.
+
+Never mention logos.
+
+Never mention watermarks.
+
+Never use vague descriptions.
+
+Every image should look like a Hollywood movie frame.
+
+Examples
+
+Ultra cinematic. Movie still. Hyper realistic. Spider-Man standing on the edge of a New York skyscraper at sunrise. Looking down with uncertainty. Dramatic orange sky. Volumetric lighting. Close-up. Vertical composition. Marvel-inspired atmosphere. Highly detailed.
+
+Ultra cinematic. Movie still. Batman inside the Batcave surrounded by glowing computer screens. Blue cinematic lighting. Serious expression. Wide-angle camera. Hyper realistic. Vertical composition.
+
+Ultra cinematic. Movie still. Iron Man hovering above New York at sunset. Arc reactor glowing brightly. Dynamic camera angle. Clouds below. Professional color grading. Vertical composition.
+
+Image Promt rules:
+Every image prompt must match the narration exactly.
+
+If the narration says:
+
+"You fire your first web."
+
+The image should show that exact moment.
+
+Do not generate generic character portraits.
+
+Generate the exact action happening in the narration.
 
 """
 
