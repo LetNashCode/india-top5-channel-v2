@@ -76,25 +76,40 @@ SCHEMA
 BRUHZEN STORY FORMULA
 ==================================================
 
-Every story MUST follow this exact emotional structure.
+The narration MUST be split into four fields:
 
-1. DECLARE
+hook
+story
+twist
+ending
+
+Map them as follows:
+
+hook = DECLARE
+
 Immediately establish the situation.
+The first sentence must stop the viewer from scrolling.
 
-2. ASSESS
-Show the first opportunity, power, or hope.
+story = ASSESS + ISOLATE + PROCESS
 
-3. ISOLATE
-Introduce the first unexpected problem.
+Introduce the opportunity, power, hope or goal.
+Then immediately introduce the first unexpected problem.
+Show the character reacting and trying to solve it.
+Every 2–4 seconds something new must happen.
+Continuously increase tension.
 
-4. PROCESS
-The character reacts and tries to solve it.
+twist = BUILD
 
-5. BUILD
-Raise the stakes. Make everything worse.
+Raise the stakes dramatically.
+Reveal the biggest obstacle, sacrifice or impossible choice.
+The viewer should believe they know what will happen next.
 
-6. REVEAL
+ending = REVEAL
+
 Deliver a surprising ending that changes how the viewer sees the entire story.
+The ending should feel satisfying, memorable and encourage viewers to watch another video.
+
+When combined in this order, hook + story + twist + ending must create one seamless narration with no repeated information.
 
 ==================================================
 SERIES RULES
@@ -157,6 +172,7 @@ Every option has serious consequences.
 ==================================================
 WRITING RULES
 ==================================================
+
 The narration is divided into four parts:
 
 hook
@@ -170,7 +186,7 @@ The complete narration is:
 
 hook + story + twist + ending
 
-Every scene in scene_plan must correspond to the narration.
+Every scene in scene_plan must correspond exactly to the narration.
 
 • Never sound educational.
 • Never sound like Wikipedia.
@@ -182,6 +198,10 @@ Every scene in scene_plan must correspond to the narration.
 • Never repeat sentences.
 • Never use "dot dot dot".
 • Avoid ellipses (...).
+• Keep the narration conversational and easy to listen to.
+• Each sentence should naturally lead into the next.
+• Every scene should move the story forward.
+• Never include information that is not shown in the corresponding scene.
 
 ==================================================
 IMAGE PROMPT RULES
