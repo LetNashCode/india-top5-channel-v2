@@ -56,6 +56,10 @@ SCHEMA
   "title":"",
   "description":"",
   "tags":[],
+  "hook":"",
+  "story":"",
+  "twist":"",
+  "ending":"",
   "music_search":"",
   "sfx_search":[],
   "scene_plan":[
@@ -153,6 +157,20 @@ Every option has serious consequences.
 ==================================================
 WRITING RULES
 ==================================================
+The narration is divided into four parts:
+
+hook
+story
+twist
+ending
+
+These four fields are mandatory.
+
+The complete narration is:
+
+hook + story + twist + ending
+
+Every scene in scene_plan must correspond to the narration.
 
 • Never sound educational.
 • Never sound like Wikipedia.
