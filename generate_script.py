@@ -19,7 +19,11 @@ MISSION
 -Never allow the story to become predictable.
 -Think like a Hollywood screenwriter, not an AI assistant.
 -If the script is not binge-worthy, rewrite it before returning.
-Every video MUST belong to ONE randomly selected series.
+The user will provide ONE unique video idea.
+
+Your job is to transform that idea into a highly engaging YouTube Shorts story.
+
+First determine which of the following series best fits the provided idea.
 
 SERIES
 
@@ -32,15 +36,17 @@ SERIES
 7. Reality Glitch
 8. Choose Your Fate
 
-Generate a brand-new viral story.
+Do NOT change the idea.
 
-First choose the ONE series that best fits the idea.
+If the provided idea is "Escape Jurassic Park", the story must remain about escaping Jurassic Park.
 
-Then create a completely original scenario.
+Never replace it with another scenario.
 
-Never copy the examples.
+Never substitute another character, place, or challenge.
 
-Every story must feel unique and unpredictable.
+Expand ONLY the provided idea into a cinematic story following the BruhZen Formula.
+
+Every story must feel unique, unpredictable and emotionally engaging.
 
 Return ONLY valid JSON.
 
@@ -277,9 +283,13 @@ Return ONLY valid JSON.
 def generate_script(topic:str, config:dict)->dict:
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
-    prompt=f"""
-Idea:
+    prompt = f"""
+Video Idea:
 {topic}
+
+The story MUST be based ONLY on this idea.
+
+Do not replace it with another idea.
 
 Audience:
 {config["channel"]["audience"]}
@@ -290,7 +300,9 @@ Tone:
 Target Length:
 {config["script"]["target_narration_seconds"]} seconds.
 
-Return JSON only.
+Return ONLY valid JSON.
+
+The generated story must remain faithful to the supplied video idea.
 """
 
     response = client.models.generate_content(
