@@ -27,7 +27,7 @@ def generate_images(script, workdir):
 
     for i, scene in enumerate(script["scene_plan"]):
 
-        prompt = STYLE_PREFIX + scene["visual_prompt"]
+        prompt = STYLE_PREFIX + scene["image_prompt"]
 
         url = (
             BASE_URL
